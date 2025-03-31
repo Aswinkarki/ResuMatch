@@ -6,13 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Alert, AlertDescription } from "../components/ui/alert"
 
 interface ResumeImprovementProps {
-  matchData: any
+  matchData: {
+    job_description_skills: string[];
+    matched_skills: string[];
+  };
 }
 
 export function ResumeImprovement({ matchData }: ResumeImprovementProps) {
   const missingSkills = matchData.job_description_skills.filter(
-    (skill: string) => !matchData.matched_skills.includes(skill),
-  )
+    (skill: string) => !matchData.matched_skills.includes(skill)
+  );
 
   const suggestions = [
     {

@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { createContext, useContext, useState, forwardRef } from "react"
 import { cn } from "../../lib/utils"
 
@@ -46,18 +45,18 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 )
 Tabs.displayName = "Tabs"
 
-export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const TabsList = forwardRef<HTMLDivElement, TabsListProps>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
-      className,
-    )}
-    {...props}
-  />
-))
+const TabsList = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+        className,
+      )}
+      {...props}
+    />
+  )
+)
 TabsList.displayName = "TabsList"
 
 export interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -116,4 +115,3 @@ const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(({ className, v
 TabsContent.displayName = "TabsContent"
 
 export { Tabs, TabsList, TabsTrigger, TabsContent }
-

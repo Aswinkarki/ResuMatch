@@ -13,8 +13,19 @@ import { EducationMatch } from "../components/education-match"
 import { ExperienceMatch } from "../components/experience-match"
 import { ResumeImprovement } from "../components/resume-improvement"
 
+interface AnalysisData {
+  resume_score: number;
+  matched_skills: string[];
+  job_description_skills: string[];
+  education_match: boolean;
+  education_requirements: string[];
+  experience_match: boolean;
+  required_experience_years: number;
+  extracted_skills: string[];
+}
+
 export default function ResultsPage() {
-  const [analysisData, setAnalysisData] = useState<any>(null)
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -156,24 +167,24 @@ export default function ResultsPage() {
                         r="40"
                         fill="transparent"
                         strokeDasharray={`${2 * Math.PI * 40}`}
-                        strokeDashoffset={`${2 * Math.PI * 40 * (1 - analysisData.resume_score / 100)}`}
+                        strokeDashoffset={`${2 * Math.PI * 40 * (1 - (analysisData?.resume_score ?? 0) / 100)}`}
                         transform="rotate(-90 50 50)"
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-4xl font-bold">{Math.round(analysisData.resume_score)}%</span>
+                      <span className="text-4xl font-bold">{Math.round(analysisData?.resume_score ?? 0)}%</span>
                     </div>
                   </div>
                   <div className="text-center">
                     <p className="text-lg font-medium">
-                      {analysisData.resume_score >= 80
+                      {analysisData?.resume_score && analysisData.resume_score >= 80
                         ? "Excellent Match!"
-                        : analysisData.resume_score >= 60
+                        : analysisData?.resume_score && analysisData.resume_score >= 60
                           ? "Good Match"
                           : "Needs Improvement"}
                     </p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Your resume matches {Math.round(analysisData.resume_score)}% of the job requirements
+                      Your resume matches {Math.round(analysisData?.resume_score ?? 0)}% of the job requirements
                     </p>
                   </div>
                 </div>
@@ -191,37 +202,37 @@ export default function ResultsPage() {
                   <div className="flex flex-col items-center p-4 border rounded-lg">
                     <div className="text-lg font-medium mb-2">Skills</div>
                     <div className="text-3xl font-bold mb-2">
-                      {analysisData.matched_skills.length}/{analysisData.job_description_skills.length}
+                      {analysisData?.matched_skills.length}/{analysisData?.job_description_skills.length}
                     </div>
                     <Progress
-                      value={(analysisData.matched_skills.length / analysisData.job_description_skills.length) * 100}
+                      value={(analysisData?.matched_skills.length ?? 0) / (analysisData?.job_description_skills.length ?? 1) * 100}
                       className="w-full h-2"
                     />
                   </div>
                   <div className="flex flex-col items-center p-4 border rounded-lg">
                     <div className="text-lg font-medium mb-2">Education</div>
                     <div className="mb-2">
-                      {analysisData.education_match ? (
+                      {analysisData?.education_match ? (
                         <CheckCircle className="h-10 w-10 text-green-500" />
                       ) : (
                         <XCircle className="h-10 w-10 text-red-500" />
                       )}
                     </div>
                     <div className="text-sm text-center text-muted-foreground">
-                      {analysisData.education_match ? "Meets requirements" : "Doesn't meet requirements"}
+                      {analysisData?.education_match ? "Meets requirements" : "Doesn't meet requirements"}
                     </div>
                   </div>
                   <div className="flex flex-col items-center p-4 border rounded-lg">
                     <div className="text-lg font-medium mb-2">Experience</div>
                     <div className="mb-2">
-                      {analysisData.experience_match ? (
+                      {analysisData?.experience_match ? (
                         <CheckCircle className="h-10 w-10 text-green-500" />
                       ) : (
                         <XCircle className="h-10 w-10 text-red-500" />
                       )}
                     </div>
                     <div className="text-sm text-center text-muted-foreground">
-                      {analysisData.experience_match ? "Meets requirements" : "Doesn't meet requirements"}
+                      {analysisData?.experience_match ? "Meets requirements" : "Doesn't meet requirements"}
                     </div>
                   </div>
                 </div>
@@ -239,25 +250,25 @@ export default function ResultsPage() {
               </TabsList>
               <TabsContent value="skills" className="mt-4">
                 <SkillsMatch
-                  extractedSkills={analysisData.extracted_skills}
-                  jobSkills={analysisData.job_description_skills}
-                  matchedSkills={analysisData.matched_skills}
+                  extractedSkills={analysisData?.extracted_skills ?? []}
+                  jobSkills={analysisData?.job_description_skills ?? []}
+                  matchedSkills={analysisData?.matched_skills ?? []}
                 />
               </TabsContent>
               <TabsContent value="education" className="mt-4">
                 <EducationMatch
-                  educationMatch={analysisData.education_match}
-                  educationRequirements={analysisData.education_requirements}
+                  educationMatch={analysisData?.education_match ?? false}
+                  educationRequirements={analysisData?.education_requirements ?? []}
                 />
               </TabsContent>
               <TabsContent value="experience" className="mt-4">
                 <ExperienceMatch
-                  experienceMatch={analysisData.experience_match}
-                  requiredYears={analysisData.required_experience_years}
+                  experienceMatch={analysisData?.experience_match ?? false}
+                  requiredYears={analysisData?.required_experience_years ?? 0}
                 />
               </TabsContent>
               <TabsContent value="improvements" className="mt-4">
-                <ResumeImprovement matchData={analysisData} />
+                {analysisData && <ResumeImprovement matchData={analysisData} />}
               </TabsContent>
             </Tabs>
           </motion.div>
@@ -277,4 +288,3 @@ export default function ResultsPage() {
     </div>
   )
 }
-

@@ -48,7 +48,8 @@ export function EducationMatch({ educationMatch, educationRequirements }: Educat
             >
               <div className="flex items-center gap-2 text-green-700">
                 <CheckCircle className="h-5 w-5" />
-                <p className="font-medium">Bachelor's Degree in Computer Science</p>
+                <p className="font-medium">Bachelor&apos;s Degree in Computer Science</p>
+
               </div>
               <p className="text-sm text-green-600 mt-1">Expected: 2025</p>
             </motion.div>

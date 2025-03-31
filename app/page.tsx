@@ -135,7 +135,7 @@ export default function Home() {
                 </div>
                 <div className="absolute left-full top-6 hidden h-0.5 w-full -translate-y-1/2 bg-muted md:block" />
                 <h3 className="text-xl font-bold">Enter Job Description</h3>
-                <p className="text-center text-muted-foreground">Paste the job description you're interested in</p>
+                <p className="text-center text-muted-foreground">Paste the job description you&apos;re interested in</p>
               </div>
               <div className="flex flex-col items-center space-y-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground">
