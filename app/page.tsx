@@ -1,7 +1,8 @@
 import Link from "next/link"
 import { Button } from "../app/components/ui/button"
 import { ArrowRight, FileText, CheckCircle, BarChart2 } from "lucide-react"
-import { HeroAnimation } from "../../resumatch/app/components/hero-animation"
+import { HeroAnimation } from "./components/hero-animation"
+
 
 export default function Home() {
   return (
